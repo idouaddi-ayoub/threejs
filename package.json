@@ -1,0 +1,23 @@
+{
+  "name": "rapier",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@dimforge/rapier3d": "^0.13.1",
+    "@tauri-apps/api": "^1",
+    "vite-plugin-top-level-await": "^1.4.1",
+    "vite-plugin-wasm": "^3.3.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1",
+    "typescript": "^5.0.2",
+    "vite": "^5.0.0"
+  }
+}
