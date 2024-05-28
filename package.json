@@ -12,6 +12,8 @@
   "dependencies": {
     "@dimforge/rapier3d": "^0.13.1",
     "@tauri-apps/api": "^1",
+    "@types/three": "^0.164.1",
+    "three": "^0.164.1",
     "vite-plugin-top-level-await": "^1.4.1",
     "vite-plugin-wasm": "^3.3.0"
   },
