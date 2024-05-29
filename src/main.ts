@@ -1,22 +1,18 @@
-import { invoke } from "@tauri-apps/api/tauri";
+import { World } from "./World/world";
 
-let greetInputEl: HTMLInputElement | null;
-let greetMsgEl: HTMLElement | null;
+async function main() {
+  const container = document.querySelector("#root");
 
-async function greet() {
-  if (greetMsgEl && greetInputEl) {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    greetMsgEl.textContent = await invoke("greet", {
-      name: greetInputEl.value,
-    });
-  }
+  if (!container) return;
+
+  // 1. Create an instance of the World app
+  const world = new World(container);
+
+  await world.begin();
+
+  world.start();
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  greetInputEl = document.querySelector("#greet-input");
-  greetMsgEl = document.querySelector("#greet-msg");
-  document.querySelector("#greet-form")?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    greet();
-  });
+main().catch((err) => {
+  console.error(err);
 });
