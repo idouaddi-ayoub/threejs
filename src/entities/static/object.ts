@@ -12,7 +12,7 @@ export function createCube(world: RAPIER.World) {
     cubeGeometry.y,
     cubeGeometry.z
   );
-  const fragment = createFragment("src/assets/textures/capy.jpg");
+  const fragment = createFragment("src/assets/textures/PRIZIDANTE.jpg");
   const radianPerSecond = THREE.MathUtils.degToRad(90);
 
   const cubeBody = world.createRigidBody(
@@ -28,7 +28,7 @@ export function createCube(world: RAPIER.World) {
     cubeGeometry.z / 2
   )
     .setMass(1)
-    .setRestitution(0.15);
+    .setRestitution(1);
 
   world.createCollider(cubeShape, cubeBody);
 

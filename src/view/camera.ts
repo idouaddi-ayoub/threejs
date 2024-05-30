@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-export class Camera extends THREE.PerspectiveCamera {
+export class ThirdPersonCamera extends THREE.PerspectiveCamera {
   private target: THREE.Object3D | null = null;
   constructor(
     container: Element,
@@ -21,9 +21,9 @@ export class Camera extends THREE.PerspectiveCamera {
   updating() {
     if (!this.target) return;
     this.position.set(
-      (this.target.position.x = this.offset.x),
-      (this.target.position.y = this.offset.y),
-      (this.target.position.z = this.offset.z)
+      this.target.position.x + this.offset.x,
+      this.target.position.y + this.offset.y,
+      this.target.position.z + this.offset.z
     );
     this.lookAt(this.target.position);
   }

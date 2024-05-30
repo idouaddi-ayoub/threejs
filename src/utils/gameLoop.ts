@@ -1,14 +1,13 @@
 import * as THREE from "three";
 import RAPIER from "@dimforge/rapier3d";
 
-const clock = new THREE.Clock();
-
 type Updatable = {
   physicalBody?: RAPIER.RigidBody;
   objectBody: any;
 };
 
 export class gameLoop {
+  private readonly clock: THREE.Clock = new THREE.Clock();
   private updatables: Updatable[] = [];
 
   constructor(
@@ -44,7 +43,7 @@ export class gameLoop {
   updating() {
     this.physicalWorld.step();
 
-    const delta = clock.getDelta();
+    const delta = this.clock.getDelta();
     for (let i = 0; this.updatables.length > i; i++) {
       if (!this.updatables[i].physicalBody) {
         this.updatables[i].objectBody.updating(delta);

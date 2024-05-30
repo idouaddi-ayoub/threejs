@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import * as OBJ from "../entities/static/object";
 import * as RAPIER from "@dimforge/rapier3d";
-import { Camera } from "../view/camera";
+import { ThirdPersonCamera } from "../view/camera";
 import { gameLoop } from "../utils";
 import { Resizer } from "../rendering/resizer";
 import { createScene } from "../rendering/scene";
@@ -9,7 +9,7 @@ import { createRenderer } from "../rendering/renderer";
 import { createLight } from "../rendering/light";
 
 export class World {
-  private camera: Camera;
+  private camera: ThirdPersonCamera;
   private scene: THREE.Scene;
   private renderer: THREE.WebGLRenderer;
   private loop: gameLoop;
@@ -20,13 +20,13 @@ export class World {
   constructor(container: Element) {
     const gravity = new RAPIER.Vector3(0.0, -9.81, 0.0);
 
-    this.camera = new Camera(
+    this.camera = new ThirdPersonCamera(
       container,
-      { x: 0, y: 20, z: 30 },
+      { x: 0, y: 20, z: 50 },
       50,
       1,
       0.1,
-      1000
+      500
     );
 
     this.scene = createScene();
@@ -70,6 +70,7 @@ export class World {
       this.physicalWorld
     );
     this.camera.addTarget(cubeObjectBody);
+
     this.scene.add(light, ambientLight, cubeObjectBody);
 
     this.loop.initiateUpdatables([
