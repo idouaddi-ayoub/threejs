@@ -69,9 +69,13 @@ export class World {
     const { cubeObjectBody, cubePhysicalBody } = OBJ.createCube(
       this.physicalWorld
     );
-    this.camera.addTarget(cubeObjectBody);
+    const { sphereObjectBody, spherePhysicalBody } = OBJ.createSpehere(
+      this.physicalWorld
+    );
 
-    this.scene.add(light, ambientLight, cubeObjectBody);
+    this.camera.addTarget(sphereObjectBody);
+
+    this.scene.add(light, ambientLight, cubeObjectBody, sphereObjectBody);
 
     this.loop.initiateUpdatables([
       {
@@ -84,6 +88,10 @@ export class World {
       {
         physicalBody: cubePhysicalBody,
         objectBody: cubeObjectBody,
+      },
+      {
+        physicalBody: spherePhysicalBody,
+        objectBody: sphereObjectBody,
       },
     ]);
   }
