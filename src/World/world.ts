@@ -7,6 +7,7 @@ import { Resizer } from "../rendering/resizer";
 import { createScene } from "../rendering/scene";
 import { createRenderer } from "../rendering/renderer";
 import { createLight } from "../rendering/light";
+import { loadRobot } from "../assets/components/Xbot";
 
 export class World {
   private camera: ThirdPersonCamera;
@@ -60,6 +61,9 @@ export class World {
   }
 
   async begin() {
+    const { model } = await loadRobot();
+    this.scene.add(model);
+
     const { light, ambientLight } = createLight();
     const { groundMesh, axesHelper, gridHelper, groundBody } = OBJ.createPlane(
       this.physicalWorld
@@ -73,7 +77,7 @@ export class World {
       this.physicalWorld
     );
 
-    this.camera.addTarget(sphereObjectBody);
+    this.camera.addTarget(model);
 
     this.scene.add(light, ambientLight, cubeObjectBody, sphereObjectBody);
 
@@ -92,6 +96,9 @@ export class World {
       {
         physicalBody: spherePhysicalBody,
         objectBody: sphereObjectBody,
+      },
+      {
+        objectBody: model,
       },
     ]);
   }
