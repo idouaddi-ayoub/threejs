@@ -23,7 +23,7 @@ export class World {
 
     this.camera = new ThirdPersonCamera(
       container,
-      { x: 0, y: 20, z: 50 },
+      { x: 0, y: 10, z: 30 },
       50,
       1,
       0.1,
@@ -61,8 +61,12 @@ export class World {
   }
 
   async begin() {
-    const { model } = await loadRobot();
-    this.scene.add(model);
+    const {
+      robotObjectBody,
+      robotPhysicalBody,
+      robotCharacterController,
+      robotCollider,
+    } = await loadRobot(this.physicalWorld);
 
     const { light, ambientLight } = createLight();
     const { groundMesh, axesHelper, gridHelper, groundBody } = OBJ.createPlane(
@@ -73,13 +77,19 @@ export class World {
     const { cubeObjectBody, cubePhysicalBody } = OBJ.createCube(
       this.physicalWorld
     );
-    const { sphereObjectBody, spherePhysicalBody } = OBJ.createSpehere(
-      this.physicalWorld
+    // const { sphereObjectBody, spherePhysicalBody } = OBJ.createSpehere(
+    //   this.physicalWorld
+    // );
+
+    this.camera.addTarget(robotObjectBody);
+
+    this.scene.add(
+      light,
+      ambientLight,
+      cubeObjectBody,
+      // sphereObjectBody,
+      robotObjectBody
     );
-
-    this.camera.addTarget(model);
-
-    this.scene.add(light, ambientLight, cubeObjectBody, sphereObjectBody);
 
     this.loop.initiateUpdatables([
       {
@@ -93,12 +103,15 @@ export class World {
         physicalBody: cubePhysicalBody,
         objectBody: cubeObjectBody,
       },
+      // {
+      //   // physicalBody: spherePhysicalBody,
+      //   // objectBody: sphereObjectBody,
+      // },
       {
-        physicalBody: spherePhysicalBody,
-        objectBody: sphereObjectBody,
-      },
-      {
-        objectBody: model,
+        objectBody: robotObjectBody,
+        physicalBody: robotPhysicalBody,
+        collider: robotCollider,
+        characterController: robotCharacterController,
       },
     ]);
   }

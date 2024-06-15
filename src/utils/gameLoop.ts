@@ -4,6 +4,8 @@ import RAPIER from "@dimforge/rapier3d";
 type Updatable = {
   physicalBody?: RAPIER.RigidBody;
   objectBody: any;
+  collider?: RAPIER.Collider;
+  characterController?: RAPIER.KinematicCharacterController;
 };
 
 export class gameLoop {
@@ -48,6 +50,18 @@ export class gameLoop {
       if (!this.updatables[i].physicalBody) {
         this.updatables[i].objectBody.updating(delta);
         continue;
+      }
+
+      if (this.updatables[i].characterController) {
+        let newVelocity = this.updatables[i].physicalBody!.linvel();
+        newVelocity.y -= 9.81 * delta * 0.5;
+        this.updatables[i].characterController!.computeColliderMovement(
+          this.updatables[i].collider!,
+          newVelocity
+        );
+        const calculatedVelocity =
+          this.updatables[i].characterController!.computedMovement();
+        this.updatables[i].physicalBody!.setLinvel(calculatedVelocity!, true);
       }
 
       this.updatables[i].objectBody.position.copy(
