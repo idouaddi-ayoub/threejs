@@ -1,10 +1,13 @@
 import RAPIER from "@dimforge/rapier3d";
+import { Vector3 } from "three";
+
+//remove the velocity to make it more fun
 
 export function setupKeyControls(
   collider: RAPIER.Collider,
   target: RAPIER.RigidBody,
   characterController: RAPIER.KinematicCharacterController,
-  speed = 1
+  speed = 50
 ) {
   let wDown = false;
   let aDown = false;
@@ -29,7 +32,7 @@ export function setupKeyControls(
         break;
     }
 
-    let newVelocity = target.linvel();
+    let newVelocity = new Vector3();
 
     if (wDown && dDown) {
       newVelocity.z -= speed / Math.sqrt(2);
@@ -47,15 +50,19 @@ export function setupKeyControls(
       switch (event.code) {
         case "KeyW":
           newVelocity.z -= speed;
+
           break;
         case "KeyS":
           newVelocity.z += speed;
+
           break;
         case "KeyA":
           newVelocity.x -= speed;
+
           break;
         case "KeyD":
           newVelocity.x += speed;
+
           break;
         case "Space":
           newVelocity.y += speed / 2;
@@ -70,7 +77,7 @@ export function setupKeyControls(
 
     characterController.computeColliderMovement(collider, newVelocity);
     const calculatedVelocity = characterController.computedMovement();
-    target.setLinvel(calculatedVelocity, true);
+    target.setLinvel(calculatedVelocity, false);
   });
 
   document.addEventListener("keyup", (event) => {
@@ -90,5 +97,45 @@ export function setupKeyControls(
       default:
         break;
     }
+
+    let newVelocity = new Vector3();
+
+    if (wDown && !dDown) {
+      newVelocity.z -= speed / Math.sqrt(4);
+      newVelocity.x = 0;
+    } else if (!wDown && dDown) {
+      newVelocity.z = 0;
+      newVelocity.x = speed / Math.sqrt(4);
+    }
+
+    if (wDown && !aDown) {
+      newVelocity.z -= speed / Math.sqrt(4);
+      newVelocity.x = 0;
+    } else if (!wDown && aDown) {
+      newVelocity.z = 0;
+      newVelocity.x -= speed / Math.sqrt(4);
+    }
+
+    if (sDown && !dDown) {
+      newVelocity.z += speed / Math.sqrt(4);
+      newVelocity.x = 0;
+    } else if (!sDown && dDown) {
+      newVelocity.z = 0;
+      newVelocity.x += speed / Math.sqrt(4);
+    }
+
+    if (sDown && !aDown) {
+      newVelocity.z += speed / Math.sqrt(4);
+      newVelocity.x = 0;
+    } else if (!sDown && aDown) {
+      newVelocity.z = 0;
+      newVelocity.x -= speed / Math.sqrt(4);
+    }
+
+    characterController.computeColliderMovement(collider, newVelocity);
+    const calculatedVelocity = characterController.computedMovement();
+    target.setLinvel(calculatedVelocity, false);
   });
 }
+
+// game controller

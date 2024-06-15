@@ -5,7 +5,7 @@ import { createFragment } from "../../utils/loader";
 import { setupKeyControls } from "../../controls/characterControl";
 
 export function createCube(world: RAPIER.World) {
-  const startPosition = { x: 100, y: 0, z: 0 };
+  const startPosition = { x: -10, y: 0, z: 0 };
   const cubeGeometry = { x: 10, y: 10, z: 10 };
 
   const vertices = new THREE.BoxGeometry(
@@ -16,10 +16,11 @@ export function createCube(world: RAPIER.World) {
   const fragment = createFragment("src/assets/textures/PRIZIDANTE.jpg");
 
   const cubeBody = world.createRigidBody(
-    RAPIER.RigidBodyDesc.dynamic()
-      .setLinvel(0, 0, 0)
-      .setAngvel({ x: 0, y: 0, z: 0 })
-      .setTranslation(startPosition.x, startPosition.y, startPosition.z)
+    RAPIER.RigidBodyDesc.dynamic().setTranslation(
+      startPosition.x,
+      startPosition.y,
+      startPosition.z
+    )
   );
 
   const cubeShape = RAPIER.ColliderDesc.cuboid(
@@ -32,7 +33,7 @@ export function createCube(world: RAPIER.World) {
 
   world.createCollider(cubeShape, cubeBody);
 
-  world.createCharacterController(0.000001);
+  // world.createCharacterController(0.000001);
 
   function updated(delta: number) {
     //cube.rotation.x += THREE.MathUtils.degToRad(90) * delta;
@@ -64,9 +65,9 @@ export function createSpehere(world: RAPIER.World) {
 
   const sphereCollider = world.createCollider(sphereShape, sphereBody);
 
-  const characterController = world.createCharacterController(0.000001);
-  characterController.setApplyImpulsesToDynamicBodies(false);
-  setupKeyControls(sphereCollider, sphereBody, characterController);
+  // const characterController = world.createCharacterController(0.000001);
+  // characterController.setApplyImpulsesToDynamicBodies(false);
+  // setupKeyControls(sphereCollider, sphereBody, characterController);
 
   function updated(delta: number) {
     //sphere.rotation.x += THREE.MathUtils.degToRad(90) * delta;

@@ -7,7 +7,7 @@ async function loadRobot(world: RAPIER.World) {
 
   const capsuleBody = world.createRigidBody(
     RAPIER.RigidBodyDesc.kinematicVelocityBased()
-      .setLinvel(0, 0, 0)
+      .setLinvel(0, -9.81, 0)
       .setTranslation(startPosition.x, startPosition.y, startPosition.z)
   );
 
